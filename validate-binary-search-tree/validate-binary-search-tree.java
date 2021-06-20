@@ -14,15 +14,26 @@
  * }
  */
 class Solution {
-    TreeNode prev = null;
-    public boolean isValidBST(TreeNode root) {
+    TreeNode pre;
+    public boolean checkValid(TreeNode root){
         if(root == null){
             return true;
         }
-        boolean ans = isValidBST(root.left);
-        if(ans == false) return false;
-        if(prev != null) if(prev.val >= root.val) return false;
-        prev = root;
-        return isValidBST(root.right);
+        
+        boolean left = checkValid(root.left);
+        if(left == false){
+            return false;
+        }
+        if(pre != null && (pre.val >= root.val)){
+            return false;
+        }
+        pre =root;
+        return checkValid(root.right);
+    }
+    public boolean isValidBST(TreeNode root) {
+        pre = null;
+        
+        return checkValid(root);
+        
     }
 }
