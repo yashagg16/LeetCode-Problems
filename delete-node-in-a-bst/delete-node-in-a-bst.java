@@ -14,38 +14,43 @@
  * }
  */
 class Solution {
-    TreeNode nextGreater(TreeNode root){
+    public TreeNode findSucc(TreeNode root){
         TreeNode tmp = root;
+        
         while(tmp.left != null){
-            tmp = tmp.left;
-        }        
+            tmp  =tmp.left;
+            
+        }
         return tmp;
     }
     public TreeNode deleteNode(TreeNode root, int key) {
+        //if the root is null, then there is nothing to delete;
         if(root == null){
-            return null; 
+            return null;
         }
         
-        if(root.val > key){
-            root.left = deleteNode(root.left, key);
-        }
-        else if(root.val < key){
+        if(root.val < key){
             root.right = deleteNode(root.right, key);
         }
+        else if(root.val > key){
+            root.left = deleteNode(root.left, key);
+        }
         else{
-            if(root.left == null && root.right == null){
-                return null;
-            }
-            if(root.left == null){
+            if(root.left == null && root.right == null) return null;
+            if(root.left == null ){
                 return root.right;
-            }
+            }    
             if(root.right == null){
                 return root.left;
             }
-            TreeNode successor = nextGreater(root.right);
-            root.val= successor.val;
-            root.right = deleteNode(root.right, successor.val);
+            
+            TreeNode succ = findSucc(root.right);
+            root.val = succ.val;
+            root.right = deleteNode(root.right, root.val);
         }
+        
         return root;
+        
+        
     }
 }
