@@ -14,20 +14,15 @@
  * }
  */
 class Solution {
-    public TreeNode findSucc(TreeNode root){
+    public TreeNode findSuc(TreeNode root){
         TreeNode tmp = root;
-        
         while(tmp.left != null){
-            tmp  =tmp.left;
-            
+            tmp = tmp.left;
         }
         return tmp;
     }
     public TreeNode deleteNode(TreeNode root, int key) {
-        //if the root is null, then there is nothing to delete;
-        if(root == null){
-            return null;
-        }
+        if(root == null) return null;
         
         if(root.val < key){
             root.right = deleteNode(root.right, key);
@@ -37,20 +32,15 @@ class Solution {
         }
         else{
             if(root.left == null && root.right == null) return null;
-            if(root.left == null ){
-                return root.right;
-            }    
-            if(root.right == null){
-                return root.left;
-            }
             
-            TreeNode succ = findSucc(root.right);
-            root.val = succ.val;
-            root.right = deleteNode(root.right, root.val);
+            if(root.left == null) return root.right;
+            if(root.right == null) return root.left;
+        
+            TreeNode suc = findSuc(root.right);
+            root.val = suc.val;
+            root.right = deleteNode(root.right, suc.val);
         }
-        
         return root;
-        
         
     }
 }
