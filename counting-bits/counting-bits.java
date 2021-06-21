@@ -1,17 +1,17 @@
 class Solution {
     public int[] countBits(int n) {
-        int[] bitcount = new int[n+1];
+        int[] bits = new int[n+1];
+        
         
         for(int i=0; i<=n; i++){
-            int count = 0;
-            int tmp = i;
-            while(tmp > 0){
-                count += (tmp%2);
-                tmp = tmp/2;
+            if(i%2 == 0){
+                bits[i] = bits[i/2];
             }
-            bitcount[i] = count;
+            else{
+                bits[i] = bits[i/2]+1;
+            }
         }
         
-        return bitcount;
+        return bits;
     }
 }
