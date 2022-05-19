@@ -22,18 +22,17 @@ public:
 class Solution {
 public:
     Node* cloneGraph(Node* node) {
-        if(!node)return NULL;
+        if(node==NULL) return node;
+        if(mp.find(node) != mp.end()) return mp[node];
         
-        if(mp.find(node) == mp.end()){
-            mp[node] = new Node(node->val, {});
-            
-            for(Node* neighbor : node->neighbors){
-                Node* tmp = cloneGraph(neighbor);
-                mp[node]->neighbors.push_back(tmp);
-            }
+        mp[node] = new Node(node->val);
+        for(Node* neighbor : node->neighbors){
+            Node* tmp = cloneGraph(neighbor);
+            mp[node]->neighbors.push_back(tmp);
         }
+        
         return mp[node];
     }
-private: 
+private:
     map<Node*, Node*> mp;
 };
