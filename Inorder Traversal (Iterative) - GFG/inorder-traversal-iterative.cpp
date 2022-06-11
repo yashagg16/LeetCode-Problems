@@ -100,22 +100,19 @@ public:
     {
         //code here
         stack<Node*> st;
-        st.push(root);
+        Node* curr = root;
         vector<int> res;
-        while(!st.empty()){
-            Node* tp = st.top();
-            st.pop();
+        
+        
+        while((curr != NULL) || (st.empty()==false)){
+            while(curr != NULL){
+                st.push(curr);
+                curr = curr->left;
+            }
             
-            if(tp->left){
-                Node* x = tp->left;
-                tp->left = NULL;
-                st.push(tp);
-                st.push(x);
-            }
-            else{
-                res.push_back(tp->data);
-                if(tp->right) st.push(tp->right);
-            }
+            curr = st.top(); st.pop();
+            res.push_back(curr->data);
+            curr = curr->right;
         }
         
         return res;
