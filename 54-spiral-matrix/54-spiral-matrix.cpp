@@ -1,51 +1,53 @@
 class Solution {
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        
-        
-        int x1=0;
-        int x2=m-1;
-        
-        int y1=0;
-        int y2=n-1;
-        vector<int>res;
-        while(x1 <= x2 && y1 <= y2){
-            // cout << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
-            for(int i=y1; i<=y2; i++){ 
-                // cout << matrix[x1][i] << " ";
-                res.push_back(matrix[x1][i]);
-            }
-            x1++;
-            if(x1 > x2) break; 
-            for(int i=x1; i<=x2; i++){
-                // cout << matrix[i][y2] << " ";
-                res.push_back(matrix[i][y2]);
-            }
-            // cout << "end2" << endl;
-            y2--;
-            if(y1 > y2) break;
-            // cout << y2 << " " << y1 << endl;
-            for(int i=y2; i>=y1; i--){
-                // cout << matrix[x2][i] << " ";
-                res.push_back(matrix[x2][i]);
-            }
-            // cout << "end3" << endl;
-            x2--;
-            if(x1 > x2) break;
-            // cout << x1 << " " << x2 << endl;
-            for(int i=x2; i>=x1; i--){
-                // cout << matrix[i][y1] << " ";
-                res.push_back(matrix[i][y1]);
-            }
-            // cout << "end4" << endl;
-            y1++;
-            if(y1 > y2) break;
-            // cout << endl;
+    void horizontal(vector<vector<int>> matrix, vector<int>& res, int stx, int sty, int endy, int x){
+        int i = sty;
+        while( i  != endy){
+            res.push_back(matrix[stx][i]);
+            i += x;
         }
+        res.push_back(matrix[stx][i]);   
+    }
+    
+    void vertical(vector<vector<int>> matrix, vector<int>& res, int sty, int stx, int endx, int x){
+        int i = stx;
+        while(i != endx){
+            res.push_back(matrix[i][sty]);
+            i += x;
+        }
+        res.push_back(matrix[i][sty]);
+    }
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
         
+        int stx = 0;
+        int sty = 0;
+        int endx = n-1;
+        int endy = m-1;
+        
+        vector<int> res;
+        while(stx <= endx && sty <= endy){
+            // cout << stx << " " << endx << " " << sty << " " << endy << endl;
+            horizontal(matrix, res, stx, sty, endy, 1);
+            stx++;
+            if(stx > endx) break;
+            
+            // cout << stx << " " << endx << " " << sty << " " << endy << endl;
+            vertical(matrix, res, endy, stx, endx, 1);
+            endy--;
+            if(sty > endy) break;
+            
+            // cout << stx << " " << endx << " " << sty << " " << endy << endl;
+            horizontal(matrix, res, endx, endy, sty, -1);
+            endx--;
+            if(stx > endx) break;
+            
+            // cout << stx << " " << endx << " " << sty << " " << endy << endl;
+            vertical(matrix, res, sty, endx, stx, -1);
+            sty++;
+            if(sty > endy) break;
+        }
         return res;
-        
     }
 };
