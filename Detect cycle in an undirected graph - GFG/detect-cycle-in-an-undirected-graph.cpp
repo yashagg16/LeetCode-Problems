@@ -22,9 +22,27 @@ class Solution {
         // Code here
         vector<int> vis(V, 0);
         
+        /*
+            make a queue for the bfs
+        */
+        
+        queue<vector<int>> q;
+        
         for(int i=0; i<V; i++){
             if(vis[i] == 0){
-                if(dfs(adj, vis, i, -1)) return true;
+                q.push({i,-1});
+                
+                while(!q.empty()){
+                    vector<int> top = q.front(); q.pop();
+                    int idx = top[0];
+                    int par = top[1];
+                    vis[idx] = 1; 
+                    for(int k : adj[idx]){
+                        if(k == par) continue;
+                        if(vis[k] == 1) return true; 
+                        q.push({k, idx});
+                    }
+                }
             }
         }
         
